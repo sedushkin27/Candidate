@@ -8,16 +8,16 @@ namespace HomeworkCandidate
 {
     public class MailSender
     {
-        public void Mail(Candidate candidate) 
+        public void SendMail(Candidate candidate) 
         {
             EmploeeDepartment department = new EmploeeDepartment();
             try
             {
                 if (department.ApproveCandidate(candidate))
                 {
-                    if((DateTime.Now.Year - candidate.DateOfBirth.Year) < 18)
+                    if(candidate.Age < 18)
                     {
-                        throw new Exception("The candidate is too young");
+                        throw new TooYoungException("The candidate is too young", candidate.Age);
                     }
                     double salary = department.CalculateSalary(candidate);
                     Console.WriteLine($"Congratulations! You have been hired with a salary of {salary}");
@@ -27,9 +27,13 @@ namespace HomeworkCandidate
                     Console.WriteLine("Sorry, you have not been hired.");
                 }
             }
-            catch (Exception ex)
+            catch (TooYoungException ex)
             {
-                Console.WriteLine($"{ex.Message}");
+                Console.WriteLine($"{ex.Message} Number of years: {ex.Age}");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
         }

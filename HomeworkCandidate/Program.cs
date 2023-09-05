@@ -16,7 +16,7 @@
 
             foreach (Candidate candidate in candidates)
             {
-                mailSender.Mail(candidate);
+                mailSender.SendMail(candidate);
             }
         }
     }
